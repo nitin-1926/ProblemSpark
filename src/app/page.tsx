@@ -1,31 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Sparkles, ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, DollarSign, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
-	const { data: session, status } = useSession();
-	const [apiSession, setApiSession] = useState(null);
-
-	useEffect(() => {
-		// Check session endpoint
-		fetch('/api/auth/session')
-			.then(res => res.json())
-			.then(data => {
-				setApiSession(data);
-			})
-			.catch(err => console.error(err));
-	}, []);
-
 	return (
 		<div className="animate-fade-in space-y-32 my-8">
 			{/* Hero Section */}
 			<section className="text-center space-y-6 py-12">
-				<h1 className="text-4xl md:text-6xl font-bold max-w-4xl mx-auto leading-tight bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
+				<h1 className="text-4xl md:text-6xl !leading-[1.2] font-bold max-w-4xl mx-auto bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
 					Discover Problems Worth Solving
+					{/* <ContainerTextFlip className="mx-4" words={['problems', 'ideas']} /> */}
 				</h1>
 				<p className="text-xl text-gray-400 max-w-2xl mx-auto">
 					Find inspiration for your next venture by exploring real-world problems validated by the community.
@@ -35,11 +21,6 @@ export default function Home() {
 						<Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
 							Explore Problems
 							<ArrowRight className="ml-2 h-5 w-5" />
-						</Button>
-					</Link>
-					<Link href="/signup">
-						<Button size="lg" variant="outline" className="border-gray-700 hover:bg-gray-800">
-							Create Account
 						</Button>
 					</Link>
 				</div>
@@ -71,12 +52,11 @@ export default function Home() {
 
 				<div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
 					<div className="bg-primary/20 p-3 rounded-full w-fit mb-4">
-						<ArrowRight className="h-6 w-6 text-primary" />
+						<DollarSign className="h-6 w-6 text-primary" />
 					</div>
-					<h3 className="text-xl font-bold mb-2">Build Solutions</h3>
+					<h3 className="text-xl font-bold mb-2">Market Solutions</h3>
 					<p className="text-gray-400">
-						Connect with others, share insights, and transform validated problems into successful
-						businesses.
+						Have a solution in mind? Market your idea to the community and get feedback or users.
 					</p>
 				</div>
 			</section>
@@ -140,39 +120,6 @@ export default function Home() {
 					</Link>
 				</div>
 			</section>
-
-			<div className="mb-8">
-				<h2 className="text-2xl font-semibold mb-4">Authentication Status</h2>
-				<div className="p-4 bg-gray-800 rounded-lg">
-					<p>
-						<strong>Client-side status:</strong> {status}
-					</p>
-					<p>
-						<strong>Logged in:</strong> {session ? 'Yes' : 'No'}
-					</p>
-					{session && (
-						<div className="mt-4">
-							<p>
-								<strong>User:</strong> {session.user?.name || session.user?.email}
-							</p>
-							<pre className="mt-2 p-2 bg-gray-900 rounded overflow-auto">
-								{JSON.stringify(session, null, 2)}
-							</pre>
-						</div>
-					)}
-
-					<div className="mt-6">
-						<h3 className="text-xl font-semibold mb-2">API Session Check</h3>
-						{apiSession ? (
-							<pre className="p-2 bg-gray-900 rounded overflow-auto">
-								{JSON.stringify(apiSession, null, 2)}
-							</pre>
-						) : (
-							<p>Loading API session data...</p>
-						)}
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }
